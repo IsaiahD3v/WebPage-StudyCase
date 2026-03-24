@@ -3,9 +3,9 @@
 
   // --- EDIT YOUR CONTENT HERE ---
   const logoText = "LO\nGO";
-  const navLinks = ['HOME', 'ABOUT US', 'GALLERY', 'CONTACT'];
-  const heroTitleMain = "SMART CITY";
-  const heroTitleSub = "SOLUTIONS";
+  const navLinks = ['ABOUT US', 'GALLERY', 'CONTACT'];
+  const heroTitleMain = "PRAXIUM";
+  const heroTitleSub = "BRIDGING EXPECTATIONS";
   const bulletPoints = ['Automation', 'Control Systems', 'IT'];
   
   // To use your actual image, put the file inside the "static" folder 
@@ -57,12 +57,11 @@
         <button class="bg-white text-[#06114F] font-bold py-3 px-6 rounded-lg shadow-lg hover:bg-gray-200 transition-colors duration-200">
           GET STARTED
         </button>
-        <button class="bg-white text-[#06114F] font-bold py-3 px-6 rounded-lg shadow-lg hover:bg-gray-200 transition-colors duration-200">
-          D E M O
-        </button>
+        
       </div>
 
     </div>
 
   </main>
 </div>
+v
