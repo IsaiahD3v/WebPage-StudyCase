@@ -1,8 +1,8 @@
 # Engenharia-de-softwaress
+#Software engeneering class
+# Praxium study case Website (software devellopment process from resource needed to testing (no intent on deployment))
 
-# Praxium study case Website
-
-A fast, lightweight 2-page website built for IoT and software solutions bussiness.
+A fast, lightweight single-page website built for digital and consulting and software solutions bussiness.
 
 ## Tech Stack
 * **Framework:** Svelte
