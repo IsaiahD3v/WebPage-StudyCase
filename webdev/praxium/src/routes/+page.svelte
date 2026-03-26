@@ -1,9 +1,9 @@
-<script>
+<script lang="ts">
   import { fade, fly } from 'svelte/transition';
   import { spring } from 'svelte/motion';
   import { onMount } from 'svelte';
 
-  // --- Files ---
+  // --- Files / import images ---
   import imgDataScience from '$lib/assets/pictures_/datascience.jpeg';
   import imgDoctor from '$lib/assets/pictures_/Doctor.jpg';
   import imgFarm from '$lib/assets/pictures_/Farm.jpg';
@@ -20,29 +20,34 @@
   ];
 
   const testimonials = [
-    { name: "Sarah J.", role: "Education Specialist", text: "Praxium revolutionized our classroom connectivity.", img: imgTeacher },
-    { name: "Dr. Aris", role: "Medical Director", text: "The IOT integration was seamless and life-saving.", img: imgDoctor },
-    { name: "Mark T.", role: "AgriTech Lead", text: "Scaling farm operations with Praxium meant an year of time saved.", img: imgFarm }
+    { name: "Sarah J.", role: "Professor Ph.D", text: "Praxium revolutionized our classroom connectivity.", img: imgTeacher },
+    { name: "Dr. Aris", role: "Hospital Director", text: "The IOT integration was seamless and life-saving.", img: imgDoctor },
+    { name: "Mark T.", role: "Agro Engeneer", text: "Scaling production with Praxium meant an year of time saved.", img: imgFarm }
   ];
 
-  let sectionHero, sectionWhatWeDo, sectionGetInTouch;
+  //  HTML element types - clearing errors from terminal (not really necessary )
+  let sectionHero: HTMLElement | undefined = $state();
+  let sectionWhatWeDo: HTMLElement | undefined = $state();
+  let sectionGetInTouch: HTMLElement | undefined = $state();
   
-  // SVELTE 5 RUNES: Estado das animações e formulário
+  // SVELTE 5 RUNES animation and form
   let isSubmitted = $state(false); 
 
-  // SVELTE 5 RUNES: Sincronização do vídeo
+  // SVELTE 5 RUNES video sync
   let videoTime = $state(0);
-  let showSec2Content = $derived(videoTime >= 1); // Fica verdadeiro após 1 segundo
+  let showSec2Content = $derived(videoTime >= 1); // true after a sec
 
-  function handleSubmit() {
+  function handleSubmit(e: Event) {
+    e.preventDefault();
     isSubmitted = true;
   }
 
-  function scrollTo(element) {
+  // scrolling and section
+  function scrollTo(element: HTMLElement | undefined) {
     if (element) element.scrollIntoView({ behavior: 'smooth' });
   }
 
-  // SVELTE 5 RUNES: Variáveis reativas
+  // SVELTE 5 RUNES relative variables
   let currentSlide = $state(0);
   onMount(() => {
     const sliderInterval = setInterval(() => {
@@ -52,9 +57,11 @@
   });
 
   let time = $state(0);
-  let hoveredIndex = $state(null);
+  //allow null assignments in the form
+  let hoveredIndex = $state<number | null>(null);
+  
   onMount(() => {
-    let frame;
+    let frame: number; // Typed the frame variable
     const loop = () => {
       time += 0.01; 
       frame = requestAnimationFrame(loop);
@@ -63,14 +70,15 @@
     return () => cancelAnimationFrame(frame);
   });
 
-  // MOUSE EFFECTS 
+  // MOUSE  GRAPHICS 
   let parallaxCoords = spring({ x: 0, y: 0 }, { stiffness: 0.03, damping: 0.1 });
   let glowCoords = spring({ x: 0, y: 0 }, { stiffness: 0.1, damping: 0.3 });
   
   let innerWidth = $state(0);
   let innerHeight = $state(0);
 
-  function handleMouseMove(e) {
+  //Parameters fo mouse graphics; MOUSEEVENT
+  function handleMouseMove(e: MouseEvent) {
     const px = (e.clientX / innerWidth) * 2 - 1;
     const py = (e.clientY / innerHeight) * 2 - 1;
     parallaxCoords.set({ x: px, y: py });
@@ -78,7 +86,7 @@
   }
 </script>
 
-<svelte:window on:mousemove={handleMouseMove} bind:innerWidth bind:innerHeight />
+<svelte:window onmousemove={handleMouseMove} bind:innerWidth bind:innerHeight />
 
 <div 
   class="pointer-events-none fixed top-0 left-0 z-[60] w-[500px] h-[500px] rounded-full opacity-80 mix-blend-screen transition-opacity duration-500"
@@ -89,12 +97,18 @@
 ></div>
 
 <nav class="fixed top-0 left-0 w-full flex justify-between items-center px-8 lg:px-16 z-[100] h-24 nav-vertical-mask font-modern">
-  <div class="w-20 h-20 cursor-pointer transition-all hover:scale-105 flex-shrink-0" on:click={() => scrollTo(sectionHero)}>
+  <div 
+    class="w-20 h-20 cursor-pointer transition-all hover:scale-105 flex-shrink-0" 
+    role="button" 
+    tabindex="0" 
+    onclick={() => scrollTo(sectionHero)}
+    onkeydown={(e) => (e.key === 'Enter' || e.key === ' ') && scrollTo(sectionHero)}
+  >
     <img src={imgLogo} alt="Logo" class="w-full h-full object-contain" />
   </div>
   <ul class="hidden md:flex space-x-12 font-medium tracking-[0.2em] text-white/70">
-    <li class="hover:text-white cursor-pointer transition-colors uppercase text-[10px]" on:click={() => scrollTo(sectionWhatWeDo)}>What We Do</li>
-    <li class="hover:text-white cursor-pointer transition-colors uppercase text-[10px]" on:click={() => scrollTo(sectionGetInTouch)}>Get In Touch</li>
+    <li><button class="hover:text-white cursor-pointer transition-colors uppercase text-[10px]" onclick={() => scrollTo(sectionWhatWeDo)}>What We Do</button></li>
+    <li><button class="hover:text-white cursor-pointer transition-colors uppercase text-[10px]" onclick={() => scrollTo(sectionGetInTouch)}>Get In Touch</button></li>
   </ul>
 </nav>
 
@@ -132,7 +146,8 @@
     </main>
 
     <button 
-      on:click={() => scrollTo(sectionWhatWeDo)}
+      onclick={() => scrollTo(sectionWhatWeDo)}
+      aria-label="Scroll to What We Do Section"
       class="absolute bottom-10 left-1/2 -translate-x-1/2 z-30 opacity-40 hover:opacity-100 transition-opacity"
     >
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="animate-bounce">
@@ -165,9 +180,10 @@
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl w-full z-10 mb-4 mt-12 relative transition-opacity duration-500 ease-in-out {showSec2Content ? 'opacity-100' : 'opacity-0'}">
       {#each testimonials as item, i}
         <div 
+          role="presentation"
           class="bg-white/[0.04] backdrop-blur-3xl p-10 rounded-[3rem] border border-white/10 flex flex-col items-center text-center shadow-2xl transition-all duration-700 ease-out"
-          on:mouseenter={() => hoveredIndex = i}
-          on:mouseleave={() => hoveredIndex = null}
+          onmouseenter={() => hoveredIndex = i}
+          onmouseleave={() => hoveredIndex = null}
           style="
             transform: translateY({hoveredIndex === i ? -20 : Math.sin(time + (i * 2)) * 30}px); 
             opacity: {hoveredIndex !== null && hoveredIndex !== i ? 0.3 : 1};
@@ -206,7 +222,7 @@
         >
           <form 
             class="w-full space-y-10" 
-            on:submit|preventDefault={handleSubmit} 
+            onsubmit={handleSubmit} 
           >
             <div class="space-y-6">
               <div class="group">
@@ -243,7 +259,7 @@
           </p>
           
           <button 
-            on:click={() => isSubmitted = false} 
+            onclick={() => isSubmitted = false} 
             class="mt-8 text-[10px] uppercase tracking-[0.3em] font-black text-blue-600 hover:underline"
           >
             Reset Form
@@ -260,8 +276,8 @@
       <div class="md:w-1/3 text-center text-white/30">
         Praxium 2026 ™
       </div>
-      <div class="hidden md:block md:w-1/3"></div> </footer>
-
+      <div class="hidden md:block md:w-1/3"></div> 
+    </footer>
   </section>
 </div>
 
@@ -277,7 +293,7 @@
   .font-modern {
     font-family: 'Outfit', sans-serif;
   }
-
+/* making scroll bar invisible*/
   .snap-y::-webkit-scrollbar { display: none; }
   .snap-y { -ms-overflow-style: none; scrollbar-width: none; }
 
@@ -287,15 +303,16 @@
     mask-image: linear-gradient(to bottom, black 0%, black 50%, transparent 100%);
   }
 
-  /* TEXTURES */
+  /* TEXTURES overlays the background color */
   .bg-noise-grain {
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
   }
 
+  /* the mash isnt even visible which was a great desapointment*/
   .bg-mesh-pattern {
     background-size: 40px 40px;
-    background-image: radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px);
+    background-image: radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 3px);
   }
 
   section { overflow: hidden; }
-</style>                                                      
+</style>
