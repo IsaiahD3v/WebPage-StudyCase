@@ -1,4 +1,4 @@
-<<<<<<< Page-home001
+
 # Praxium study case Website
 
 A fast, lightweigh  single-page website built for IoT  software and hardware solutions bussiness.
@@ -10,20 +10,6 @@ Styling Engine: Tailwind CSS v3/v4 (Utility-first styling, arbitrary value injec
 Animation & Physics: Svelte native transitions (svelte/transition), spring-physics motion stores (svelte/motion), and native Web APIs (requestAnimationFrame)
 Asset Optimization: Vite bundling for static media and localized font serving (@fontsourceor Google Fonts ‘Outfit’)
 
-## Local Development & Deployment
-
-To run this project in a Codespaces or local Node.js environment, follow these steps:
-
-- Open your terminal.
-- Install the dependency tree using Bash:
-
-    npm install
-
-- Initialize the Vite development server with Hot Module Replacement (HMR) using Bash:
-
-    npm run dev
-
-- Click the local or forwarded port link (typically http://localhost:5173) to view the live build.
 
 ## Scroll Architecture & Navigation
 
@@ -119,13 +105,6 @@ To prevent the deep blue backgrounds (#06114F, #081663) from appearing flat, the
 The Global Grain (.bg-noise-grain) is a fixed element across the entire app, set to an opacity of [0.03] and blended with overlay. It utilizes an inline data-URI SVG containing <feTurbulence type=‘fractalNoise’ baseFrequency=‘0.65’ numOctaves=‘3’ />. This generates randomized, high-frequency static that imparts a tactile, cinematic “film stock” feel to the viewport.
 
 The Dot Mesh (.bg-mesh-pattern) is prominently featured in sections 2 and 3, with an opacity of [0.15]. It employs a background-size of 40px 40px to create a grid matrix. Within this grid, a radial-gradient draws a precise 1-pixel dot at 5% white opacity (rgba(255,255,255,0.05) 1px), which instantly fades to transparency at 3px. This meticulously spaced dot-grid evokes an engineering or blueprint aesthetic.
-=======
-# Engenharia-de-softwaress
-#Software engeneering class
-# Praxium study case Website (software devellopment process from resource needed to testing (no intent on deployment))
-
-A fast, lightweight single-page website built for digital and consulting and software solutions bussiness.
->>>>>>> main
 
 The CSS Mask (.nav-vertical-mask) is used for the top navigation bar. Instead of a solid background, it employs a webkit mask: mask-image: linear-gradient(to bottom, black 0%, black 50%, transparent 100%); This instructs the browser to render the navigation background at 100% opacity at the top edge, maintain it to the 50% mark, and then mathematically fade the actual element into transparency at the bottom edge, resulting in a seamless bleed into the content scrolling beneath it.
 
