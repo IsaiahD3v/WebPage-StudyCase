@@ -270,8 +270,8 @@
 
     <footer class="absolute bottom-0 left-0 w-full p-6 lg:px-16 flex flex-col md:flex-row justify-between items-center z-20 text-[10px] uppercase tracking-[0.3em] font-bold text-white/50 gap-4">
       <div class="flex space-x-8 md:w-1/3 justify-center md:justify-start">
-        <a href="#career" class="hover:text-white transition-colors">Career</a>
-        <a href="#education" class="hover:text-white transition-colors">Education</a>
+       <a href="https://github.com/IsaiahD3v" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors">Careers</a>
+       <a href="https://www.ifms.edu.br/" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors">Education</a>
       </div>
       <div class="md:w-1/3 text-center text-white/30">
         Praxium 2026 ™
