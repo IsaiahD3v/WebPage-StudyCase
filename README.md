@@ -6,8 +6,11 @@ A fast, lightweigh  single-page website built for IoT  software and hardware sol
 Tech Stack & Core Technologies
 
 Framework: Svelte 5 (Utilizing Runes for granular state and DOM tracking)
+
 Styling Engine: Tailwind CSS v3/v4 (Utility-first styling, arbitrary value injection, and complex backdrop filters)
+
 Animation & Physics: Svelte native transitions (svelte/transition), spring-physics motion stores (svelte/motion), and native Web APIs (requestAnimationFrame)
+
 Asset Optimization: Vite bundling for static media and localized font serving (@fontsourceor Google Fonts ‘Outfit’)
 
 
@@ -21,7 +24,9 @@ HTML
 
 <div class=“snap-y snap-mandatory h-screen overflow-y-scroll scroll-smooth relative z-10…”>
 
-- snap-y snap-mandatory: Forces the browser’s scroll engine to strictly lock onto the nearest defined snap point along the Y-axis. The user cannot rest halfway between sections.
+- snap-y snap-mandatory: Forces the browser’s scroll engine to strictly lock onto the nearest defined snap point along the Y-axis.
+- The user cannot rest halfway between sections.
+  
 Scrollbar Hiding: Custom CSS (.snap-y::-webkit-scrollbar { display: none; }and -ms-overflow-style: none) completely conceals the visual scrollbar, creating the illusion of a presentation-style deck instead of a webpage.
 
 Programmatic Navigation
@@ -31,7 +36,9 @@ function scrollTo(element: HTMLElement | undefined) {
   if (element) element.scrollIntoView({ behavior: ‘smooth’ });
 }
 
-The $state() runes sectionHero, sectionWhatWeDo, and sectionGetInTouch are directly linked to the <section> nodes. When a user clicks a nav link or the bouncing down-arrow, the scrollTo function bypasses the user’s mouse wheel and utilizes the native Web API scrollIntoView with a smooth easing behavior to precisely reach the top edge of the target section.
+The $state() runes sectionHero, sectionWhatWeDo, and sectionGetInTouch are directly linked to the <section> nodes. 
+
+When a user clicks a nav link or the bouncing down-arrow, the scrollTo function bypasses the user’s mouse wheel and utilizes the native Web API scrollIntoView with a smooth easing behavior to precisely reach the top edge of the target section.
 
 ## Layering, Transparency & Glassmorphism
 
@@ -73,7 +80,10 @@ Svelte’s spring store interpolates values over time to simulate physical weigh
 
 The Glow Orb (glowCoords) uses a stiffness of 0.1 and damping of 0.3, closely and responsively trailing the user’s actual cursor (e.clientX, e.clientY) with a slight, fluid delay.
 
-The Typography Parallax (parallaxCoords) tracks normalized coordinates (-1 to 1 across the screen). It employs an extremely low stiffness (0.03) and damping (0.1), resulting in a very loose, heavy, and slow-moving 3D shift for the “PRAXIUM” header (transform: translate({$parallaxCoords.x * 20}px…)).
+The Typography Parallax (parallaxCoords) tracks normalized coordinates (-1 to 1 across the screen).
+
+It employs an extremely low stiffness (0.03) and damping (0.1), resulting in a very loose, heavy, and slow-moving 3D shift for the “PRAXIUM” header (transform: translate({$parallaxCoords.x * 20}px…))
+
 The Continuous Animation Loop (requestAnimationFrame)
 
 The testimonial cards don’t use CSS keyframes. Instead, they employ a mathematically driven hardware-accelerated loop:
@@ -89,7 +99,9 @@ Every frame (approximately 60 times a second), time increments by 0.01.
 
 The Math: transform: translateY({Math.sin(time + (i * 2)) * 30}px)
 
-This applies a Sine wave (Math.sin) to the Y-axis. The * 30 creates an amplitude of 30 pixels (moving up 30px, then down 30px). The + (i * 2) offset uses the array index i to ensure the cards are out of phase with each other—meaning they bob up and down asynchronously, like buoys in the water.
+This applies a Sine wave (Math.sin) to the Y-axis. The * 30 creates an amplitude of 30 pixels (moving up 30px, then down 30px). 
+
+The + (i * 2) offset uses the array index i to ensure the cards are out of phase with each other—meaning they bob up and down asynchronously, like buoys in the water.
 
 Svelte Directives (in:fly, out:fade)
 
@@ -102,9 +114,13 @@ in:fly={{ y: 30, duration: 600, delay: 450 }}: The “Message Received” compon
 ## Texture Generation (Tiles & Noise)
 
 To prevent the deep blue backgrounds (#06114F, #081663) from appearing flat, the project generates intricate overlays using pure CSS and base64 SVGs.
-The Global Grain (.bg-noise-grain) is a fixed element across the entire app, set to an opacity of [0.03] and blended with overlay. It utilizes an inline data-URI SVG containing <feTurbulence type=‘fractalNoise’ baseFrequency=‘0.65’ numOctaves=‘3’ />. This generates randomized, high-frequency static that imparts a tactile, cinematic “film stock” feel to the viewport.
+The Global Grain (.bg-noise-grain) is a fixed element across the entire app, set to an opacity of [0.03] and blended with overlay. It utilizes an inline data-URI SVG containing <feTurbulence type=‘fractalNoise’ baseFrequency=‘0.65’ numOctaves=‘3’ />.
 
-The Dot Mesh (.bg-mesh-pattern) is prominently featured in sections 2 and 3, with an opacity of [0.15]. It employs a background-size of 40px 40px to create a grid matrix. Within this grid, a radial-gradient draws a precise 1-pixel dot at 5% white opacity (rgba(255,255,255,0.05) 1px), which instantly fades to transparency at 3px. This meticulously spaced dot-grid evokes an engineering or blueprint aesthetic.
+This generates randomized, high-frequency static that imparts a tactile, cinematic “film stock” feel to the viewport.
+
+The Dot Mesh (.bg-mesh-pattern) is prominently featured in sections 2 and 3, with an opacity of [0.15].
+
+It employs a background-size of 40px 40px to create a grid matrix. Within this grid, a radial-gradient draws a precise 1-pixel dot at 5% white opacity (rgba(255,255,255,0.05) 1px), which instantly fades to transparency at 3px. This meticulously spaced dot-grid evokes an engineering or blueprint aesthetic.
 
 The CSS Mask (.nav-vertical-mask) is used for the top navigation bar. Instead of a solid background, it employs a webkit mask: mask-image: linear-gradient(to bottom, black 0%, black 50%, transparent 100%); This instructs the browser to render the navigation background at 100% opacity at the top edge, maintain it to the 50% mark, and then mathematically fade the actual element into transparency at the bottom edge, resulting in a seamless bleed into the content scrolling beneath it.
 
